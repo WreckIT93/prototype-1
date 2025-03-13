@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Library:
-  - m_Name: stationairy
-    m_Hash: 556099009
+  - m_Name: up
+    m_Hash: 60092016
     m_CategoryList: []
     m_OverrideEntries:
     - m_Name: up
@@ -22,33 +22,8 @@ MonoBehaviour:
       m_Sprite: {fileID: 1375099623, guid: 7b0dd92c76030914da654865f0765ee5, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: 1375099623, guid: 7b0dd92c76030914da654865f0765ee5, type: 3}
-    - m_Name: right idle 1
-      m_Hash: 333775117
-      m_Sprite: {fileID: 1759775607, guid: 7b0dd92c76030914da654865f0765ee5, type: 3}
-      m_FromMain: 0
-      m_SpriteOverride: {fileID: 1759775607, guid: 7b0dd92c76030914da654865f0765ee5, type: 3}
-    - m_Name: right idle 3
-      m_Hash: 1038835745
-      m_Sprite: {fileID: 1980403508, guid: 7b0dd92c76030914da654865f0765ee5, type: 3}
-      m_FromMain: 0
-      m_SpriteOverride: {fileID: 1980403508, guid: 7b0dd92c76030914da654865f0765ee5, type: 3}
-    - m_Name: right idle 2-4
-      m_Hash: 11034562
-      m_Sprite: {fileID: -1934420916, guid: 7b0dd92c76030914da654865f0765ee5, type: 3}
-      m_FromMain: 0
-      m_SpriteOverride: {fileID: -1934420916, guid: 7b0dd92c76030914da654865f0765ee5, type: 3}
-    - m_Name: up Idle
-      m_Hash: 881706752
-      m_Sprite: {fileID: 8542989628323137137, guid: 7b0dd92c76030914da654865f0765ee5, type: 3}
-      m_FromMain: 0
-      m_SpriteOverride: {fileID: 8542989628323137137, guid: 7b0dd92c76030914da654865f0765ee5, type: 3}
-    - m_Name: down idle
-      m_Hash: 165524371
-      m_Sprite: {fileID: 214721246, guid: 7b0dd92c76030914da654865f0765ee5, type: 3}
-      m_FromMain: 0
-      m_SpriteOverride: {fileID: 214721246, guid: 7b0dd92c76030914da654865f0765ee5, type: 3}
     m_FromMain: 0
-    m_EntryOverrideCount: 6
+    m_EntryOverrideCount: 1
   - m_Name: jump
     m_Hash: 666043926
     m_CategoryList: []
@@ -80,6 +55,27 @@ MonoBehaviour:
       m_SpriteOverride: {fileID: 1404240416, guid: 7b0dd92c76030914da654865f0765ee5, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 5
+  - m_Name: right
+    m_Hash: 885683476
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: right idle 1
+      m_Hash: 333775117
+      m_Sprite: {fileID: 1759775607, guid: 7b0dd92c76030914da654865f0765ee5, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1759775607, guid: 7b0dd92c76030914da654865f0765ee5, type: 3}
+    - m_Name: right idle 3
+      m_Hash: 1038835745
+      m_Sprite: {fileID: 1980403508, guid: 7b0dd92c76030914da654865f0765ee5, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1980403508, guid: 7b0dd92c76030914da654865f0765ee5, type: 3}
+    - m_Name: right idle 2-4
+      m_Hash: 11034562
+      m_Sprite: {fileID: -1934420916, guid: 7b0dd92c76030914da654865f0765ee5, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1934420916, guid: 7b0dd92c76030914da654865f0765ee5, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 3
   m_PrimaryLibraryGUID: 
-  m_ModificationHash: 638773190233064311
+  m_ModificationHash: 638774925432932986
   m_Version: 1
