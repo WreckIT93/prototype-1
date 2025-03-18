@@ -2,10 +2,11 @@ using System.Collections;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;  
 
 public class PlayerController : MonoBehaviour
 {
-    //variables 
+    //movement variables 
     public Rigidbody2D rb;
     public float speed = 5.0f;
     [SerializeField] float jumpTime = 0.5f;
@@ -21,14 +22,23 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
 
 
+    // powerbar variables
+    private Image powerBar;
+    private GameObject powerbarGOB;
+    [SerializeField] float barChangeSpeed = 10f;
+    private float maxBarValue = 100f;
+    public float currentBarValue = 0f;
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-
-
+        powerBar = GameObject.Find("PowerBarMask").GetComponent<Image>();
+        powerbarGOB = GameObject.Find("Powerbar");
+        powerbarGOB.SetActive(false);
     }
 
     // Update is called once per frame
@@ -81,7 +91,11 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("charge", true);
             animator.GetCurrentAnimatorStateInfo(0).IsName("Charge");
-            
+            powerbarGOB.SetActive(true);    
+
+
+
+
 
         }
         
@@ -112,8 +126,10 @@ public class PlayerController : MonoBehaviour
 
 
         }
+    //powerbar function
 
-        void FixedUpdate()
+      
+    void FixedUpdate()
         {
 
 
