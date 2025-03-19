@@ -168,7 +168,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Froggy_1
+      name: Idle down 2
       rect:
         serializedVersion: 2
         x: 32
@@ -190,7 +190,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Froggy_2
+      name: Idle down 3
       rect:
         serializedVersion: 2
         x: 64
@@ -212,7 +212,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Froggy_3
+      name: Idle down 4
       rect:
         serializedVersion: 2
         x: 96
@@ -237,7 +237,7 @@ TextureImporter:
       name: Idle up 1
       rect:
         serializedVersion: 2
-        x: 1
+        x: 0
         y: 576
         width: 32
         height: 32
@@ -256,7 +256,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Froggy_5
+      name: Idle up 2
       rect:
         serializedVersion: 2
         x: 32
@@ -278,7 +278,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Froggy_6
+      name: Idle up 3
       rect:
         serializedVersion: 2
         x: 64
@@ -300,7 +300,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Froggy_7
+      name: Idle up 4
       rect:
         serializedVersion: 2
         x: 96
@@ -322,7 +322,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle right1
+      name: Idle right 1
       rect:
         serializedVersion: 2
         x: 0
@@ -344,7 +344,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Froggy_9
+      name: Idle right 2
       rect:
         serializedVersion: 2
         x: 32
@@ -366,7 +366,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Froggy_10
+      name: Idle right 3
       rect:
         serializedVersion: 2
         x: 64
@@ -388,7 +388,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Froggy_11
+      name: Idle right 4
       rect:
         serializedVersion: 2
         x: 96
@@ -424,18 +424,18 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       Froggy_0: -368832337
-      Froggy_1: -1306238166
-      Froggy_10: 1103424267
-      Froggy_11: 1299562926
-      Froggy_2: 831554347
-      Froggy_3: -885299741
-      Froggy_5: 227199616
-      Froggy_6: 1969951115
-      Froggy_7: -1022249239
-      Froggy_9: -1241985036
       Idle down 1: 1047820608
-      Idle right1: -105585155
+      Idle down 2: -1306238166
+      Idle down 3: 831554347
+      Idle down 4: -885299741
+      Idle right 1: -105585155
+      Idle right 2: -1241985036
+      Idle right 3: 1103424267
+      Idle right 4: 1299562926
       Idle up 1: 949706082
+      Idle up 2: 227199616
+      Idle up 3: 1969951115
+      Idle up 4: -1022249239
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
