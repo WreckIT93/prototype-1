@@ -128,7 +128,10 @@ public class PlayerController : MonoBehaviour
         }
     //powerbar function
 
-      
+  
+        
+
+
     void FixedUpdate()
         {
 
