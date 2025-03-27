@@ -313,11 +313,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   speed: 7
-  jumpTime: 0.5
+  jumpTime: 3
   aniDirection: {x: 0, y: 0}
+  jumpdirection: {x: 0, y: 0}
+  JumpDistanceMove: 0
   ismoving: 0
-  barChangeSpeed: 10
-  currentBarValue: 0
+  barChangeSpeed: 75
+  Testjumpbutton: 0
 --- !u!1 &401504383
 GameObject:
   m_ObjectHideFlags: 0
