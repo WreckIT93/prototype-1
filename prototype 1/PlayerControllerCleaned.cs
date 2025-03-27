@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.UI;  
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,12 +16,12 @@ public class PlayerController : MonoBehaviour
     private float vertical;
     private Vector2 move;
     private Vector2 pos;
-    private Vector2 jumpdirection;
-    private int JumpDistanceMove;
+    public Vector2 jumpdirection;
+    public float JumpDistanceMove;
     private float Jumpdistance;
     private float movecooldown = 0.3f;
     private float inputtreshold = 0.5f;
-    private bool ismoving = false;
+    public bool ismoving = false;
     private float movecooldowntimer = 0f;
     private Animator animator;
     private bool canJump = true;
@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     private float currentBarValue = 0f;
     private bool isCharging = false;
     private bool isChargingUp = true;
+    public bool Testjumpbutton;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -98,7 +99,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator TurnPowerbarOff()
     {
         StopCoroutine(UpdatePowerbar());
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
         yield return Jumpdistance;
         powerbarGOB.SetActive(false);
     }
@@ -111,6 +112,7 @@ public class PlayerController : MonoBehaviour
         pos = transform.position;
         vertical = Input.GetAxisRaw("Vertical");
         move = new Vector2(horizontal, vertical);
+        Testjumpbutton = Input.GetButton("Jump");
 
         // Movement input
         if (((Mathf.Abs(horizontal) > inputtreshold)) && !ismoving && movecooldowntimer < 0f)
@@ -144,7 +146,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Jump input
-        if (canJump && Input.GetButton("Jump") && movecooldowntimer <= 0f)
+        if (canJump && Input.GetButton("Jump"))
         {
             jumpdirection = aniDirection;
             StartCoroutine(UpdatePowerbar());
@@ -177,11 +179,12 @@ public class PlayerController : MonoBehaviour
                 aniDirection.y = 0;
             }
         }
-        if (isCharging && !Input.GetButton("Jump") && canJump)
+        if (isCharging && !Input.GetButton("Jump"))
         {
             canJump = false;
             animator.SetBool("charge", false);
             animator.GetCurrentAnimatorStateInfo(0).IsName("jumping");
+            StopCoroutine(UpdatePowerbar());
             // Move player
             StartCoroutine(Jump());
         }
@@ -190,9 +193,9 @@ public class PlayerController : MonoBehaviour
     // Jump function
     IEnumerator Jump()
     {
+        Debug.Log(JumpDistanceMove);
         Vector2 startPos = transform.position;
         Vector2 targetPos = startPos + (jumpdirection * JumpDistanceMove);
-        movecooldowntimer = 10f;
         float t = 0f;
         while (t < 1f)
         {
@@ -203,11 +206,14 @@ public class PlayerController : MonoBehaviour
         }
         rb.position = targetPos;
         Jumpdistance = 0;
-        currentBarValue = 0f;
-        canJump = true;
-        isCharging = false;
         ismoving = false;
-        movecooldowntimer = 0f;
+        Debug.Log("jumped");
+        currentBarValue = 0f;
+        if (rb.position == targetPos)
+        {
+            StopCoroutine(Jump());
+            canJump = true;
+        }
     }
 
     // Movement function
