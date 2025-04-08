@@ -1,5 +1,6 @@
 using NUnit.Framework.Internal;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private float movecooldowntimer = 0f;
     private Animator animator;
     private bool canJump = true;
+    private bool CollisionOccured = false;
 
     // Powerbar variables
     private Image powerBar;
@@ -196,12 +198,16 @@ public class PlayerController : MonoBehaviour
         float t = 0f;
         while (t < 1f)
         {
-            rb.freezeRotation = true;
             t += Time.deltaTime * jumpTime;
             rb.MovePosition(Vector3.Lerp(startPos, targetPos, t));
             yield return null;
+            if (CollisionOccured)
+            {
+                break;
+            }
         }
-        rb.position = targetPos;
+
+        SnapPositionToGrid();
         Jumpdistance = 0;
         currentBarValue = 0f;
         canJump = true;
@@ -216,20 +222,43 @@ public class PlayerController : MonoBehaviour
         ismoving = true;
         float t = 0f;
         Vector2 startPos = transform.position;
-        Vector2 targetPos = startPos + Direction;
+        Vector2 targetPos = startPos + (Direction / 1F);
         while (t < 1f)
         {
-            rb.freezeRotation = true;
             t += Time.deltaTime * speed;
             rb.MovePosition(Vector3.Lerp(startPos, targetPos, t));
+            if (CollisionOccured)
+            {
+                break;
+            }
             yield return null;
-        }
 
-        rb.position = targetPos;
-        rb.freezeRotation = false;
+        }
+        SnapPositionToGrid();
+        Jumpdistance = 0;
+        movecooldowntimer = 0f;
+        canJump = true;
+        isCharging = false;
         ismoving = false;
     }
+    private void SnapPositionToGrid()
+    {
+        // Round the current position to the nearest integer
+        Vector2 currentPos = transform.position;
+        Vector2 snappedPos = new Vector2(
+            Mathf.Round(currentPos.x),
+            Mathf.Round(currentPos.y)
+        );
+        rb.position = snappedPos;
+        transform.position = snappedPos;    
+        CollisionOccured = false;
+    }
 
+    private void OnCollisionEnter2D (Collision2D collision)
+    {
+        CollisionOccured = true;
+        Debug.Log("Collision Occured");
+    }
     void FixedUpdate()
     {
     }
