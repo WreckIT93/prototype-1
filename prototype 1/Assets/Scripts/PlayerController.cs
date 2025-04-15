@@ -196,6 +196,22 @@ public class PlayerController : MonoBehaviour
         Vector2 targetPos = startPos + (jumpdirection * JumpDistanceMove);
         movecooldowntimer = 10f;
         float t = 0f;
+        //nog te fixen en checken
+        RaycastHit2D hit = Physics2D.Raycast (targetPos,Vector2.zero, 0.1f);
+        Debug.DrawRay (transform.position , jumpdirection * JumpDistanceMove, Color.red, 10f);
+        if (hit.collider != null)
+        {
+            Debug.Log("Hit object: " + hit);
+            Jumpdistance = 0;
+            currentBarValue = 0f;
+            canJump = true;
+            isCharging = false;
+            ismoving = false;
+            movecooldowntimer = 0f;
+
+            yield break;
+        }
+        // tot hier
         while (t < 1f)
         {
             t += Time.deltaTime * jumpTime;
@@ -257,9 +273,26 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D (Collision2D collision)
     {
         CollisionOccured = true;
-        Debug.Log("Collision Occured");
+        //Debug.Log("Collision Occured");
+        Debug.Log("Collision detected with: " + collision.gameObject.name);
+
+        // More detailed information
+        Debug.Log("Hit object tag: " + collision.gameObject.tag);
+        Debug.Log("Hit point: " + collision.contacts[0].point);
+        Debug.Log("Hit normal: " + collision.contacts[0].normal);
     }
     void FixedUpdate()
     {
+        if (!canJump)
+        {
+            transform.Find("MoveGroundCollider").gameObject.SetActive(false); 
+            transform.Find("MoveJumpCollider").gameObject.SetActive(true);
+        }
+        else if (canJump)
+        {
+            transform.Find("MoveGroundCollider").gameObject.SetActive(true);
+            transform.Find("MoveJumpCollider").gameObject.SetActive(false);
+        }
+        
     }
 }
