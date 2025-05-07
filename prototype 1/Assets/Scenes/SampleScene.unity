@@ -4135,13 +4135,17 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4106172470136258529, guid: 4d86373a72c7d5d4e8548fb5ef9b9f56, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     - target: {fileID: 4431064307766472531, guid: 4d86373a72c7d5d4e8548fb5ef9b9f56, type: 3}
       propertyPath: m_Name
       value: Grid
       objectReference: {fileID: 0}
     - target: {fileID: 5610365680575826910, guid: 4d86373a72c7d5d4e8548fb5ef9b9f56, type: 3}
       propertyPath: m_CallbackLayers.m_Bits
-      value: 128
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 5610365680575826910, guid: 4d86373a72c7d5d4e8548fb5ef9b9f56, type: 3}
       propertyPath: m_ForceSendLayers.m_Bits
@@ -4819,9 +4823,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Obstacles H/L
       objectReference: {fileID: 0}
+    - target: {fileID: 7771966923043373618, guid: 4d86373a72c7d5d4e8548fb5ef9b9f56, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     - target: {fileID: 8060586138859588702, guid: 4d86373a72c7d5d4e8548fb5ef9b9f56, type: 3}
       propertyPath: m_IncludeLayers.m_Bits
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8641039776638182085, guid: 4d86373a72c7d5d4e8548fb5ef9b9f56, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     - target: {fileID: 9135750097651570368, guid: 4d86373a72c7d5d4e8548fb5ef9b9f56, type: 3}
       propertyPath: m_Size.y

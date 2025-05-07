@@ -37,6 +37,10 @@ public class PlayerController : MonoBehaviour
     private bool isCharging = false;
     private bool isChargingUp = true;
 
+    // Collision check variables
+    [SerializeField] float jumpCollisionCheckRadius = 0.45f;
+    [SerializeField] LayerMask obstacleLayerMask;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -196,19 +200,25 @@ public class PlayerController : MonoBehaviour
         Vector2 targetPos = startPos + (jumpdirection * JumpDistanceMove);
         movecooldowntimer = 10f;
         float t = 0f;
+        Debug.Log("Jumping to: " + targetPos);
         //nog te fixen en checken
-        RaycastHit2D hit = Physics2D.Raycast (targetPos,Vector2.zero, 0.1f);
-        Debug.DrawRay (transform.position , jumpdirection * JumpDistanceMove, Color.red, 10f);
-        if (hit.collider != null)
+        RaycastHit2D landingHit = Physics2D.CircleCast(
+      targetPos,                   // origin
+      0.45f,                       // radius (slightly smaller than a grid cell)
+      Vector2.zero,                // direction (doesn't matter since distance is 0)
+      0.1f,                        // distance
+      LayerMask.GetMask("Obstacle High", "Obstacle Low") // check both obstacle layers
+  );
+
+        if (!IsLandingPositionValid(targetPos))
         {
-            Debug.Log("Hit object: " + hit);
+            Debug.Log("Cannot land on obstacle");
             Jumpdistance = 0;
             currentBarValue = 0f;
             canJump = true;
             isCharging = false;
             ismoving = false;
             movecooldowntimer = 0f;
-
             yield break;
         }
         // tot hier
@@ -280,6 +290,29 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Hit object tag: " + collision.gameObject.tag);
         Debug.Log("Hit point: " + collision.contacts[0].point);
         Debug.Log("Hit normal: " + collision.contacts[0].normal);
+    }
+
+    // Check if landing position is valid
+    private bool IsLandingPositionValid(Vector2 landingPos)
+    {
+        // Check both obstacle layers for landing - we don't want to land on any obstacle
+        LayerMask allObstaclesMask = LayerMask.GetMask("Obstacle High", "Obstacle Low");
+
+        // Check if the landing position is occupied by any obstacle
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(
+            landingPos,               // center of circle
+            jumpCollisionCheckRadius, // radius
+            allObstaclesMask          // check all obstacles
+        );
+
+        // If any obstacle colliders were found, the landing position is not valid
+        if (colliders.Length > 0)
+        {
+            Debug.Log("Landing position occupied by obstacle: " + colliders[0].gameObject.name);
+            return false;
+        }
+
+        return true;
     }
     void FixedUpdate()
     {
