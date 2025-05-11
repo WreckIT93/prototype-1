@@ -4,15 +4,15 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.UI;  
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     // Movement variables
     public Rigidbody2D rb;
     public float speed = 5.0f;
-    [SerializeField] float jumpTime = 2f;
-    [SerializeField] Vector2 aniDirection;
+    [SerializeField] private float jumpTime = 2f;
+    [SerializeField] private Vector2 aniDirection;
     private float horizontal;
     private float vertical;
     private Vector2 move;
@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     // Powerbar variables
     private Image powerBar;
     private GameObject powerbarGOB;
-    [SerializeField] float barChangeSpeed = 50f;
+    [SerializeField] private float barChangeSpeed = 50f;
     private float maxBarValue = 100f;
     private float currentBarValue = 0f;
     private bool isCharging = false;
@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator UpdatePowerbar()
     {
         powerbarGOB.SetActive(true);
+
         if (isChargingUp)
         {
             currentBarValue += barChangeSpeed * Time.deltaTime;
@@ -59,7 +60,7 @@ public class PlayerController : MonoBehaviour
                 isChargingUp = false;
             }
         }
-        else if (!isChargingUp)
+        else
         {
             currentBarValue -= barChangeSpeed * Time.deltaTime;
             if (currentBarValue <= 0)
@@ -67,23 +68,25 @@ public class PlayerController : MonoBehaviour
                 isChargingUp = true;
             }
         }
+
         float fill = currentBarValue / maxBarValue;
         powerBar.fillAmount = fill;
         isCharging = false;
         Jumpdistance = currentBarValue;
+
         if (Jumpdistance <= 10)
         {
             JumpDistanceMove = 0;
         }
-        else if (Jumpdistance <= 30 && Jumpdistance >= 10)
+        else if (Jumpdistance <= 30)
         {
             JumpDistanceMove = 2;
         }
-        else if (Jumpdistance <= 70 && Jumpdistance >= 30)
+        else if (Jumpdistance <= 70)
         {
             JumpDistanceMove = 3;
         }
-        if (Jumpdistance <= 100 && Jumpdistance >= 70)
+        else if (Jumpdistance <= 100)
         {
             JumpDistanceMove = 4;
         }
@@ -94,6 +97,7 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(TurnPowerbarOff());
         }
+
         yield return null;
     }
 
@@ -115,14 +119,14 @@ public class PlayerController : MonoBehaviour
         move = new Vector2(horizontal, vertical);
 
         // Movement input
-        if (((Mathf.Abs(horizontal) > inputtreshold)) && !ismoving && movecooldowntimer < 0f)
+        if (Mathf.Abs(horizontal) > inputtreshold && !ismoving && movecooldowntimer < 0f)
         {
             Vector2 direction = horizontal > 0 ? Vector2.right : Vector2.left;
             StartCoroutine(Move(direction));
             movecooldowntimer = movecooldown;
             aniDirection = direction;
         }
-        else if (((Mathf.Abs(vertical) > inputtreshold)) && !ismoving && movecooldowntimer < 0f)
+        else if (Mathf.Abs(vertical) > inputtreshold && !ismoving && movecooldowntimer < 0f)
         {
             Vector2 direction = vertical > 0 ? Vector2.up : Vector2.down;
             StartCoroutine(Move(direction));
@@ -136,6 +140,7 @@ public class PlayerController : MonoBehaviour
 
         animator.SetFloat("right", right);
         animator.SetFloat("up", up);
+
         if (right < 0f)
         {
             GetComponent<SpriteRenderer>().flipX = true;
@@ -154,37 +159,34 @@ public class PlayerController : MonoBehaviour
             animator.GetCurrentAnimatorStateInfo(0).IsName("Charge");
             isCharging = true;
             ismoving = true;
+
             if (vertical > 0)
             {
                 jumpdirection = Vector2.up;
-                aniDirection.y = 1;
-                aniDirection.x = 0;
+                aniDirection = Vector2.up;
             }
-            if (vertical < 0)
+            else if (vertical < 0)
             {
                 jumpdirection = Vector2.down;
-                aniDirection.y = -1;
-                aniDirection.x = 0;
+                aniDirection = Vector2.down;
             }
-            if (horizontal > 0)
+            else if (horizontal > 0)
             {
                 jumpdirection = Vector2.right;
-                aniDirection.x = 1;
-                aniDirection.y = 0;
+                aniDirection = Vector2.right;
             }
-            if (horizontal < 0)
+            else if (horizontal < 0)
             {
                 jumpdirection = Vector2.left;
-                aniDirection.x = -1;
-                aniDirection.y = 0;
+                aniDirection = Vector2.left;
             }
         }
+
         if (isCharging && !Input.GetButton("Jump") && canJump)
         {
             canJump = false;
             animator.SetBool("charge", false);
             animator.GetCurrentAnimatorStateInfo(0).IsName("jumping");
-            // Move player
             StartCoroutine(Jump());
         }
     }
@@ -196,27 +198,23 @@ public class PlayerController : MonoBehaviour
         Vector2 targetPos = startPos + (jumpdirection * JumpDistanceMove);
         movecooldowntimer = 10f;
         float t = 0f;
-        //nog te fixen en checken
-        RaycastHit2D hit = Physics2D.Raycast (targetPos,Vector2.zero, 0.1f);
-        Debug.DrawRay (transform.position , jumpdirection * JumpDistanceMove, Color.red, 10f);
+
+        RaycastHit2D hit = Physics2D.Raycast(targetPos, Vector2.zero, 0.1f);
+        Debug.DrawRay(transform.position, jumpdirection * JumpDistanceMove, Color.red, 10f);
+
         if (hit.collider != null)
         {
-            Debug.Log("Hit object: " + hit);
-            Jumpdistance = 0;
-            currentBarValue = 0f;
-            canJump = true;
-            isCharging = false;
-            ismoving = false;
-            movecooldowntimer = 0f;
-
+            Debug.Log("Hit object: " + hit.collider.name);
+            ResetJumpState();
             yield break;
         }
-        // tot hier
+
         while (t < 1f)
         {
             t += Time.deltaTime * jumpTime;
             rb.MovePosition(Vector3.Lerp(startPos, targetPos, t));
             yield return null;
+
             if (CollisionOccured)
             {
                 break;
@@ -224,6 +222,49 @@ public class PlayerController : MonoBehaviour
         }
 
         SnapPositionToGrid();
+        ResetJumpState();
+    }
+
+    // Movement function
+    IEnumerator Move(Vector2 direction)
+    {
+        ismoving = true;
+        float t = 0f;
+        Vector2 startPos = transform.position;
+        Vector2 targetPos = startPos + (direction / 1f);
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime * speed;
+            rb.MovePosition(Vector3.Lerp(startPos, targetPos, t));
+
+            if (CollisionOccured)
+            {
+                break;
+            }
+
+            yield return null;
+        }
+
+        SnapPositionToGrid();
+        ResetJumpState();
+    }
+
+    private void SnapPositionToGrid()
+    {
+        Vector2 currentPos = transform.position;
+        Vector2 snappedPos = new Vector2(
+            Mathf.Round(currentPos.x),
+            Mathf.Round(currentPos.y)
+        );
+
+        rb.position = snappedPos;
+        transform.position = snappedPos;
+        CollisionOccured = false;
+    }
+
+    private void ResetJumpState()
+    {
         Jumpdistance = 0;
         currentBarValue = 0f;
         canJump = true;
@@ -232,67 +273,23 @@ public class PlayerController : MonoBehaviour
         movecooldowntimer = 0f;
     }
 
-    // Movement function
-    IEnumerator Move(Vector2 Direction)
-    {
-        ismoving = true;
-        float t = 0f;
-        Vector2 startPos = transform.position;
-        Vector2 targetPos = startPos + (Direction / 1F);
-        while (t < 1f)
-        {
-            t += Time.deltaTime * speed;
-            rb.MovePosition(Vector3.Lerp(startPos, targetPos, t));
-            if (CollisionOccured)
-            {
-                break;
-            }
-            yield return null;
-
-        }
-        SnapPositionToGrid();
-        Jumpdistance = 0;
-        movecooldowntimer = 0f;
-        canJump = true;
-        isCharging = false;
-        ismoving = false;
-    }
-    private void SnapPositionToGrid()
-    {
-        // Round the current position to the nearest integer
-        Vector2 currentPos = transform.position;
-        Vector2 snappedPos = new Vector2(
-            Mathf.Round(currentPos.x),
-            Mathf.Round(currentPos.y)
-        );
-        rb.position = snappedPos;
-        transform.position = snappedPos;    
-        CollisionOccured = false;
-    }
-
-    private void OnCollisionEnter2D (Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         CollisionOccured = true;
-        //Debug.Log("Collision Occured");
         Debug.Log("Collision detected with: " + collision.gameObject.name);
-
-        // More detailed information
-        Debug.Log("Hit object tag: " + collision.gameObject.tag);
-        Debug.Log("Hit point: " + collision.contacts[0].point);
-        Debug.Log("Hit normal: " + collision.contacts[0].normal);
     }
+
     void FixedUpdate()
     {
         if (!canJump)
         {
-            transform.Find("MoveGroundCollider").gameObject.SetActive(false); 
+            transform.Find("MoveGroundCollider").gameObject.SetActive(false);
             transform.Find("MoveJumpCollider").gameObject.SetActive(true);
         }
-        else if (canJump)
+        else
         {
             transform.Find("MoveGroundCollider").gameObject.SetActive(true);
             transform.Find("MoveJumpCollider").gameObject.SetActive(false);
         }
-        
     }
 }
