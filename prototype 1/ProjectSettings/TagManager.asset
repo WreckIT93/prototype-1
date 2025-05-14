@@ -4,7 +4,7 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Obstacle
+  - Hazard
   layers:
   - Default
   - TransparentFX
@@ -15,7 +15,7 @@ TagManager:
   - Ground
   - Obstacle Low
   - Obstacle High
-  - 
+  - Ground Hazard
   - 
   - 
   - 
@@ -44,6 +44,9 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 931207151
+    locked: 0
+  - name: GroundHazard
+    uniqueID: 517920977
     locked: 0
   - name: Player
     uniqueID: 184472699
