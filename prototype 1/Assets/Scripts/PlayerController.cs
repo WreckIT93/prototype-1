@@ -37,9 +37,15 @@ public class PlayerController : MonoBehaviour
     private bool isCharging = false;
     private bool isChargingUp = true;
 
+    // Player manager variables
+    private Vector2 Startinglocation;
+    private bool ResetCheckpoint = false;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Startinglocation = transform.position;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         powerBar = GameObject.Find("PowerBarMask").GetComponent<Image>();
@@ -198,8 +204,8 @@ public class PlayerController : MonoBehaviour
         Vector2 targetPos = startPos + (jumpdirection * JumpDistanceMove);
         movecooldowntimer = 10f;
         float t = 0f;
-
-        RaycastHit2D hit = Physics2D.Raycast(targetPos, Vector2.zero, 0.1f);
+        LayerMask layersToExclude = ~LayerMask.GetMask("Ground Hazard");
+        RaycastHit2D hit = Physics2D.Raycast(targetPos, Vector2.zero, 0.1f, layersToExclude);
         Debug.DrawRay(transform.position, jumpdirection * JumpDistanceMove, Color.red, 10f);
 
         if (hit.collider != null)
@@ -277,6 +283,13 @@ public class PlayerController : MonoBehaviour
     {
         CollisionOccured = true;
         Debug.Log("Collision detected with: " + collision.gameObject.name);
+        if (collision.gameObject.CompareTag ("Hazard"))
+        {
+          ResetCheckpoint = true;
+
+        }
+            
+        
     }
 
     void FixedUpdate()
@@ -291,5 +304,15 @@ public class PlayerController : MonoBehaviour
             transform.Find("MoveGroundCollider").gameObject.SetActive(true);
             transform.Find("MoveJumpCollider").gameObject.SetActive(false);
         }
+        if(ResetCheckpoint == true)
+        {
+            canJump = false;
+            ismoving = true;
+            transform.position = Startinglocation;
+            ResetCheckpoint = false;
+            ResetJumpState();
+
+        }
     }
+    
 }
