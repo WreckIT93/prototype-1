@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    public GameObject Camera;
     // Movement variables
     public Rigidbody2D rb;
     public float speed = 5.0f;
@@ -40,13 +41,14 @@ public class PlayerController : MonoBehaviour
     // Player manager variables
     private Vector2 Startinglocation;
     private bool ResetCheckpoint = false;
-
+    public float time = 0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Startinglocation = transform.position;
         rb = GetComponent<Rigidbody2D>();
+        Camera = GameObject.Find("Main Camera");
         animator = GetComponent<Animator>();
         powerBar = GameObject.Find("PowerBarMask").GetComponent<Image>();
         powerbarGOB = GameObject.Find("Powerbar");
@@ -204,7 +206,7 @@ public class PlayerController : MonoBehaviour
         Vector2 targetPos = startPos + (jumpdirection * JumpDistanceMove);
         movecooldowntimer = 10f;
         float t = 0f;
-        LayerMask layersToExclude = ~LayerMask.GetMask("Ground Hazard");
+        LayerMask layersToExclude = ~LayerMask.GetMask("Ground Hazard", "High Hazard");
         RaycastHit2D hit = Physics2D.Raycast(targetPos, Vector2.zero, 0.1f, layersToExclude);
         Debug.DrawRay(transform.position, jumpdirection * JumpDistanceMove, Color.red, 10f);
 
@@ -246,6 +248,7 @@ public class PlayerController : MonoBehaviour
 
             if (CollisionOccured)
             {
+
                 break;
             }
 
@@ -269,6 +272,35 @@ public class PlayerController : MonoBehaviour
         CollisionOccured = false;
     }
 
+    IEnumerator playerreset()
+    {
+
+        canJump = false;
+        ismoving = true;
+        animator.SetBool("Died", true);
+        
+        float duration = 1f;
+
+        while (time < duration)
+        {
+
+            time += Time.deltaTime * 15;
+            yield return new WaitForSeconds(0.1f);
+
+        }
+    
+        transform.position = Startinglocation;
+        ResetCheckpoint = false;
+        animator.SetBool("Died", false);
+        SnapPositionToGrid();
+        ResetJumpState();
+        time = 0f;
+        vertical = 0f;
+        horizontal = 0f;
+        aniDirection = Vector2.zero;
+      
+    }
+
     private void ResetJumpState()
     {
         Jumpdistance = 0;
@@ -283,13 +315,12 @@ public class PlayerController : MonoBehaviour
     {
         CollisionOccured = true;
         Debug.Log("Collision detected with: " + collision.gameObject.name);
-        if (collision.gameObject.CompareTag ("Hazard"))
+        if (collision.gameObject.CompareTag("Hazard"))
         {
-          ResetCheckpoint = true;
+            ResetCheckpoint = true;
 
         }
-            
-        
+
     }
 
     void FixedUpdate()
@@ -304,13 +335,10 @@ public class PlayerController : MonoBehaviour
             transform.Find("MoveGroundCollider").gameObject.SetActive(true);
             transform.Find("MoveJumpCollider").gameObject.SetActive(false);
         }
-        if(ResetCheckpoint == true)
+        if(ResetCheckpoint == true && !ismoving)
         {
-            canJump = false;
-            ismoving = true;
-            transform.position = Startinglocation;
+          StartCoroutine(playerreset());
             ResetCheckpoint = false;
-            ResetJumpState();
 
         }
     }
