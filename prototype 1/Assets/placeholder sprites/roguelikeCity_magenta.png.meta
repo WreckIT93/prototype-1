@@ -27100,7 +27100,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: roguelikeCity_magenta_919
+      name: Car 1
       rect:
         serializedVersion: 2
         x: 527
@@ -27126,7 +27126,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: roguelikeCity_magenta_920
+      name: car 2
       rect:
         serializedVersion: 2
         x: 544
@@ -27152,7 +27152,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: roguelikeCity_magenta_921
+      name: car 3
       rect:
         serializedVersion: 2
         x: 561
@@ -28062,7 +28062,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: roguelikeCity_magenta_956
+      name: car 4
       rect:
         serializedVersion: 2
         x: 527
@@ -28088,7 +28088,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: roguelikeCity_magenta_957
+      name: car 5
       rect:
         serializedVersion: 2
         x: 544
@@ -28114,7 +28114,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: roguelikeCity_magenta_958
+      name: car 6
       rect:
         serializedVersion: 2
         x: 561
@@ -30155,6 +30155,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      Car 1: -7460455777616085034
+      car 2: -8533835310242041527
+      car 3: -7645316752580586581
+      car 4: 3801567654817659524
+      car 5: 8976857293145682184
+      car 6: -6364987870400373534
       roguelikeCity_magenta_0: 3968736720647933878
       roguelikeCity_magenta_1: 5719492862420616624
       roguelikeCity_magenta_10: -2359270462959364541
@@ -31102,10 +31108,7 @@ TextureImporter:
       roguelikeCity_magenta_916: -4201683792826669003
       roguelikeCity_magenta_917: 1284152160542720947
       roguelikeCity_magenta_918: 2393782389859958813
-      roguelikeCity_magenta_919: -7460455777616085034
       roguelikeCity_magenta_92: 1793297561835028735
-      roguelikeCity_magenta_920: -8533835310242041527
-      roguelikeCity_magenta_921: -7645316752580586581
       roguelikeCity_magenta_922: -7451670801136667573
       roguelikeCity_magenta_923: 3217572092042387155
       roguelikeCity_magenta_924: 6383973858079955916
@@ -31143,9 +31146,6 @@ TextureImporter:
       roguelikeCity_magenta_953: -4414744365812701387
       roguelikeCity_magenta_954: -471199050841697310
       roguelikeCity_magenta_955: -7984243566544885927
-      roguelikeCity_magenta_956: 3801567654817659524
-      roguelikeCity_magenta_957: 8976857293145682184
-      roguelikeCity_magenta_958: -6364987870400373534
       roguelikeCity_magenta_959: -6239779759581071703
       roguelikeCity_magenta_96: -7527674634414849949
       roguelikeCity_magenta_960: 4744691305816919332
