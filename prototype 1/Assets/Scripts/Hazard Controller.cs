@@ -9,11 +9,13 @@ public class HazardController : MonoBehaviour
     public List<GameObject> hazards;
     public float spawnInterval = 2f;
     private float timer;
-    public Vector2 spawnPositionCar;  
     public float speed = 5f;
     public Vector2 removePosition;
-    public Vector2 destroyLocationCar = new Vector2(15f, 0f);
+   
     public float destroyDistance = 1f;
+    // parameters invullen per hazard
+    public Vector2 destroyLocationCar = new Vector2(15f, 0f);
+    public Vector2 spawnPositionCar;
 
 
     void Start()
